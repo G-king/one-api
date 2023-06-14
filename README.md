@@ -40,14 +40,17 @@ _✨ All in one 的 OpenAI 接口，整合各种 API 访问方式，开箱即用
   <a href="https://openai.justsong.cn/">在线演示</a>
   ·
   <a href="https://github.com/songquanpeng/one-api#常见问题">常见问题</a>
+  ·
+  <a href="https://iamazing.cn/page/reward">赞赏支持</a>
 </p>
 
-> **Warning**：从 `v0.2` 版本升级到 `v0.3` 版本需要手动迁移数据库，请手动执行[数据库迁移脚本](./bin/migration_v0.2-v0.3.sql)。
+> **Note**：使用 Docker 拉取的最新镜像可能是 `alpha` 版本，如果追求稳定性请手动指定版本。
 
+> **Warning**：从 `v0.3` 版本升级到 `v0.4` 版本需要手动迁移数据库，请手动执行[数据库迁移脚本](./bin/migration_v0.3-v0.4.sql)。
 
 ## 功能
 1. 支持多种 API 访问渠道，欢迎 PR 或提 issue 添加更多渠道：
-   + [x] OpenAI 官方通道
+   + [x] OpenAI 官方通道（支持配置代理）
    + [x] **Azure OpenAI API**
    + [x] [API2D](https://api2d.com/r/197971)
    + [x] [OhMyGPT](https://aigptx.top?aff=uFpUl2Kf)
@@ -56,23 +59,26 @@ _✨ All in one 的 OpenAI 接口，整合各种 API 访问方式，开箱即用
    + [x] [OpenAI Max](https://openaimax.com)
    + [x] [OpenAI-SB](https://openai-sb.com)
    + [x] [CloseAI](https://console.openai-asia.com/r/2412)
-   + [x] 自定义渠道：例如使用自行搭建的 OpenAI 代理
+   + [x] 自定义渠道：例如各种未收录的第三方代理服务
 2. 支持通过**负载均衡**的方式访问多个渠道。
 3. 支持 **stream 模式**，可以通过流式传输实现打字机效果。
 4. 支持**多机部署**，[详见此处](#多机部署)。
 5. 支持**令牌管理**，设置令牌的过期时间和使用次数。
 6. 支持**兑换码管理**，支持批量生成和导出兑换码，可使用兑换码为账户进行充值。
 7. 支持**通道管理**，批量创建通道。
-8. 支持发布公告，设置充值链接，设置新用户初始额度。
-9. 支持丰富的**自定义**设置，
-   1. 支持自定义系统名称，logo 以及页脚。
-   2. 支持自定义首页和关于页面，可以选择使用 HTML & Markdown 代码进行自定义，或者使用一个单独的网页通过 iframe 嵌入。
-10. 支持通过系统访问令牌访问管理 API。
-11. 支持用户管理，支持**多种用户登录注册方式**：
+8. 支持**用户分组**以及**渠道分组**，支持为不同分组设置不同的倍率。
+9. 支持渠道**设置模型列表**。
+10. 支持**查看额度明细**。
+11. 支持发布公告，设置充值链接，设置新用户初始额度。
+12. 支持丰富的**自定义**设置，
+    1. 支持自定义系统名称，logo 以及页脚。
+    2. 支持自定义首页和关于页面，可以选择使用 HTML & Markdown 代码进行自定义，或者使用一个单独的网页通过 iframe 嵌入。
+13. 支持通过系统访问令牌访问管理 API。
+14. 支持用户管理，支持**多种用户登录注册方式**：
     + 邮箱登录注册以及通过邮箱进行密码重置。
     + [GitHub 开放授权](https://github.com/settings/applications/new)。
     + 微信公众号授权（需要额外部署 [WeChat Server](https://github.com/songquanpeng/wechat-server)）。
-12. 未来其他大模型开放 API 后，将第一时间支持，并将其封装成同样的 API 访问方式。
+15. 未来其他大模型开放 API 后，将第一时间支持，并将其封装成同样的 API 访问方式。
 
 ## 部署
 ### 基于 Docker 进行部署
@@ -110,6 +116,8 @@ sudo certbot --nginx
 # 重启 Nginx
 sudo service nginx restart
 ```
+
+初始账号用户名为 `root`，密码为 `123456`。
 
 ### 手动部署
 1. 从 [GitHub Releases](https://github.com/songquanpeng/one-api/releases/latest) 下载可执行文件或者从源码编译：
@@ -195,3 +203,11 @@ https://openai.justsong.cn
    + 令牌额度仅供用户设置最大使用量，用户可自由设置。
 2. 宝塔部署后访问出现空白页面？
    + 自动配置的问题，详见[#97](https://github.com/songquanpeng/one-api/issues/97)。
+3. 提示无可用渠道？
+   + 请检查的用户分组和渠道分组设置。
+   + 以及渠道的模型设置。
+
+## 注意
+本项目为开源项目，请在遵循 OpenAI 的[使用条款](https://openai.com/policies/terms-of-use)以及法律法规的情况下使用，不得用于非法用途。
+
+本项目依据 MIT 协议开源，请以某种方式保留 One API 的版权信息。
